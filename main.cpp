@@ -1,7 +1,4 @@
-#include <fstream>
 #include <cstdlib>
-#include <iostream>
-
 #include "json.hpp"
 #include "webview.h"
 
@@ -9,7 +6,7 @@
 
 using json = nlohmann::json;
 
-webview::webview w(true, nullptr);
+webview::webview w(false, nullptr);
 
 std::string GeneratePassword(std::string args){
 
