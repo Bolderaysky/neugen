@@ -1,0 +1,254 @@
+<head>
+  <style>
+    body {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      font-family: "IBM Plex Sans Condensed", sans-serif;
+      font-weight: 300;
+      background-color: #ecf0f3;
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      color: #394a56;
+    }
+
+    .label-text {
+      margin-left: 16px;
+    }
+
+    .toggle {
+      isolation: isolate;
+      position: relative;
+      height: 30px;
+      width: 60px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: -8px -4px 8px 0px #ffffff, 8px 4px 12px 0px #d1d9e6,
+        4px 4px 4px 0px #d1d9e6 inset, -4px -4px 4px 0px #ffffff inset;
+    }
+
+    .toggle-state {
+      display: none;
+    }
+
+    .indicator {
+      height: 100%;
+      width: 200%;
+      background: #ecf0f3;
+      border-radius: 15px;
+      transform: translate3d(-75%, 0, 0);
+      transition: transform 0.4s cubic-bezier(0.85, 0.05, 0.18, 1.35);
+      box-shadow: -8px -4px 8px 0px #ffffff, 8px 4px 12px 0px #d1d9e6;
+    }
+
+    .toggle-state:checked ~ .indicator {
+      transform: translate3d(25%, 0, 0);
+    }
+
+    div.block {
+      display: flex;
+      align-items: left;
+      justify-content: normal;
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding: 10px;
+      margin-left: 5%;
+      margin-right: 5%;
+    }
+    div.blocks {
+      align-items: left;
+      display: block;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    .res {
+      margin-top: 35%;
+      position: relative;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+    }
+
+    div.res_block {
+      display: block;
+      text-align: center;
+      font-family: "IBM Plex Sans Condensed", sans-serif;
+      font-weight: 300;
+    }
+
+    div.sc_blocks {
+      margin-top: 10%;
+    }
+
+    button {
+      background: #ecf0f3;
+      border: none;
+      isolation: isolate;
+      position: relative;
+      font-size: 16px;
+      height: 35px;
+      width: 280px;
+      border-radius: 15px;
+      overflow: hidden;
+
+      color: #444;
+      font-family: "IBM Plex Sans Condensed", sans-serif;
+      font-weight: 300;
+      text-align: center;
+      outline: none;
+      cursor: pointer;
+      transition: 0.2s ease-in-out;
+      box-shadow: -6px -6px 14px rgba(255, 255, 255, 0.7),
+        -6px -6px 10px rgba(255, 255, 255, 0.5),
+        6px 6px 8px rgba(255, 255, 255, 0.075), 6px 6px 10px rgba(0, 0, 0, 0.15);
+    }
+    button:hover {
+      box-shadow: -2px -2px 6px rgba(255, 255, 255, 0.6),
+        -2px -2px 4px rgba(255, 255, 255, 0.4),
+        2px 2px 2px rgba(255, 255, 255, 0.05), 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    button:active {
+      box-shadow: inset -2px -2px 6px rgba(255, 255, 255, 0.7),
+        inset -2px -2px 4px rgba(255, 255, 255, 0.5),
+        inset 2px 2px 2px rgba(255, 255, 255, 0.075),
+        inset 2px 2px 4px rgba(0, 0, 0, 0.15);
+    }
+  </style>
+</head>
+<div>
+  <div class="blocks">
+    <div class="block">
+      <label class="label">
+        <div class="toggle">
+          <input
+            class="toggle-state"
+            type="checkbox"
+            name="check"
+            value="check"
+            id="numbers"
+            checked
+          />
+          <div class="indicator"></div>
+        </div>
+        <div class="label-text">Use numbers</div>
+      </label>
+    </div>
+    <div class="block">
+      <label class="label">
+        <div class="toggle">
+          <input
+            class="toggle-state"
+            type="checkbox"
+            name="check"
+            value="check"
+            id="lowercase"
+            checked
+          />
+          <div class="indicator"></div>
+        </div>
+        <div class="label-text">Use lowercase symbols</div>
+      </label>
+    </div>
+
+    <div class="block">
+      <label class="label">
+        <div class="toggle">
+          <input
+            class="toggle-state"
+            type="checkbox"
+            name="check"
+            value="check"
+            id="uppercase"
+            checked
+          />
+          <div class="indicator"></div>
+        </div>
+        <div class="label-text">Use uppercase symbols</div>
+      </label>
+    </div>
+
+    <div class="block">
+      <label class="label">
+        <div class="toggle">
+          <input
+            class="toggle-state"
+            type="checkbox"
+            name="check"
+            value="check"
+            id="special"
+            checked
+          />
+          <div class="indicator"></div>
+        </div>
+        <div class="label-text">Use special symbols</div>
+      </label>
+    </div>
+  </div>
+
+  <div class="sc_blocks">
+    <div class="block res_block">
+      <p id="result">Your result will be there.</p>
+    </div>
+
+    <div class="block">
+      <button id="generate_btn">Generate password</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const res_field = document.getElementById("result");
+  const btn = document.getElementById("generate_btn");
+  const num_toggle = document.getElementById("numbers");
+  const low_toggle = document.getElementById("lowercase");
+  const upper_toggle = document.getElementById("uppercase");
+  const spec_toggle = document.getElementById("special");
+
+  function ShowResult(result) {
+    res_field.textContent = result;
+  }
+
+  btn.addEventListener("click", function handleClick() {
+    let num_state = num_toggle.checked;
+    let low_state = low_toggle.checked;
+    let upper_state = upper_toggle.checked;
+    let spec_state = spec_toggle.checked;
+
+    let result;
+
+    GeneratePassword(num_state, low_state, upper_state, spec_state, 20).then(
+      (ret) => {
+        ShowResult(ret);
+      }
+    );
+  });
+
+  function disableOnlyCheckbox() {
+    let totalChecked = [
+      upper_toggle,
+      low_toggle,
+      num_toggle,
+      spec_toggle,
+    ].filter((el) => el.checked);
+    totalChecked.forEach((el) => {
+      if (totalChecked.length == 1) {
+        el.disabled = true;
+      } else {
+        el.disabled = false;
+      }
+    });
+  }
+
+  [upper_toggle, low_toggle, num_toggle, spec_toggle].forEach((el) => {
+    el.addEventListener("click", () => {
+      disableOnlyCheckbox();
+    });
+  });
+</script>
